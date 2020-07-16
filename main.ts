@@ -335,50 +335,50 @@ namespace startbit {
 
 
 
-    function findIndexof(src: string, strFind: string, startIndex: number): number {
-        for (let i = startIndex; i < src.length; i++) {
-            if (src.charAt(i).compare(strFind) == 0) {
-                return i;
-            }
-        }
-        return -1;
-    }
+    // function findIndexof(src: string, strFind: string, startIndex: number): number {
+    //     for (let i = startIndex; i < src.length; i++) {
+    //         if (src.charAt(i).compare(strFind) == 0) {
+    //             return i;
+    //         }
+    //     }
+    //     return -1;
+    // }
 
-    function countChar(src: string, strFind: string): number {
-        let cnt: number = 0;
-        for (let i = 0; i < src.length; i++) {
-            if (src.charAt(i).compare(strFind) == 0) {
-                cnt++;
-            }
-        }
-        return cnt;
-    }
+    // function countChar(src: string, strFind: string): number {
+    //     let cnt: number = 0;
+    //     for (let i = 0; i < src.length; i++) {
+    //         if (src.charAt(i).compare(strFind) == 0) {
+    //             cnt++;
+    //         }
+    //     }
+    //     return cnt;
+    // }
 
-    function strToNumber(str: string): number {
-        let num: number = 0;
-        for (let i = 0; i < str.length; i++) {
-            let tmp: number = converOneChar(str.charAt(i));
-            if (tmp == -1)
-                return -1;
-            if (i > 0)
-                num *= 16;
-            num += tmp;
-        }
-        return num;
-    }
+    // function strToNumber(str: string): number {
+    //     let num: number = 0;
+    //     for (let i = 0; i < str.length; i++) {
+    //         let tmp: number = converOneChar(str.charAt(i));
+    //         if (tmp == -1)
+    //             return -1;
+    //         if (i > 0)
+    //             num *= 16;
+    //         num += tmp;
+    //     }
+    //     return num;
+    // }
 
-    function decStrToNumber(str: string): number {
-        let num: number = 0;
-        for (let i = 0; i < str.length; i++) {
-            let tmp: number = converOneChar(str.charAt(i));
-            if (tmp == -1)
-                return -1;
-            if (i > 0)
-                num *= 10;
-            num += tmp;
-        }
-        return num;
-    }
+    // function decStrToNumber(str: string): number {
+    //     let num: number = 0;
+    //     for (let i = 0; i < str.length; i++) {
+    //         let tmp: number = converOneChar(str.charAt(i));
+    //         if (tmp == -1)
+    //             return -1;
+    //         if (i > 0)
+    //             num *= 10;
+    //         num += tmp;
+    //     }
+    //     return num;
+    // }
 
     // function converOneChar(str: string): number {
     //     if (str.compare("0") >= 0 && str.compare("9") <= 0) {
@@ -1251,211 +1251,211 @@ namespace startbit {
         return adValue;
     }
 
-    /**
-    * Resolve the Bluetooth that phone APP send command type, the total of nine types of commands: tank display command, servo debug command, obtaining the distance of ultrasonic command, obtaining temperature command, obtain sound size rank orders, to obtain the light level command, set the color lights command, honking command, firmware version information command.
-    */
-    //% weight=59 blockId=startbit_analyzeBluetoothCmd block="Get bluetooth command type %str" group="6. The Mobile App."  advanced=true
-    export function startbit_analyzeBluetoothCmd(str: string): number {
-        if (str.length > 6) {
-            let cmdHead = str.substr(0, 3);
+    // /**
+    // * Resolve the Bluetooth that phone APP send command type, the total of nine types of commands: tank display command, servo debug command, obtaining the distance of ultrasonic command, obtaining temperature command, obtain sound size rank orders, to obtain the light level command, set the color lights command, honking command, firmware version information command.
+    // */
+    // //% weight=59 blockId=startbit_analyzeBluetoothCmd block="Get bluetooth command type %str" group="6. The Mobile App."  advanced=true
+    // export function startbit_analyzeBluetoothCmd(str: string): number {
+    //     if (str.length > 6) {
+    //         let cmdHead = str.substr(0, 3);
 
-            if (cmdHead == "CMD") {
-                let cmdTypeStr: string = str.substr(4, 2);
-                let cmdType = strToNumber(cmdTypeStr);
-                if (cmdType > startbit_CmdType.GET_HAND_CMD || cmdType < 0) {
-                    return startbit_CmdType.NO_COMMAND;
-                }
-                else {
-                    return cmdType;
-                }
-            }
-            else {
-                return startbit_CmdType.NO_COMMAND;
-            }
-        }
-        else {
-            return startbit_CmdType.NO_COMMAND;
-        }
-    }
-    /**
-     * Resolve the parameters that the phone APP send the command,there are 3 parameters of servo debug command,the other command has just one parameter.
-     */
-    //% weight=58  blockId=startbit_cgetArgs block="Get bluetooth command|%str|argument at %index" group="6. The Mobile App."  
-    //% index.min=1 index.max=3
-    export function startbit_getArgs(str: string, index: number): number {
-        let cmdType = startbit_analyzeBluetoothCmd(str);
-        if (cmdType == startbit_CmdType.NO_COMMAND) {
-            return startbit_CarRunCmdType.COMMAND_ERRO;
-        }
-        else {
-            let dataIndex = 7;
-            let subLegth = 2;
-            if (index == 2) {
-                dataIndex = 10;
-                subLegth = 2;
-            }
-            else if (index == 3) {
-                dataIndex = 13;
-                subLegth = 4;
-            }
-            if (cmdType == startbit_CmdType.SERVO) {
-                if (str.length < 17) {
-                    return startbit_CmdType.NO_COMMAND;
-                }
-            }
-            if ((index == 1 && str.length < 10) || (index == 2 && str.length < 13) || (index == 3 && str.length < 17)) {
-                return 0;
-            }
-            let strArgs = str.substr(dataIndex, subLegth);
-            let arg = strToNumber(strArgs);
-            if (arg == -1)
-                return 0;
-            return arg;
-        }
-    }
+    //         if (cmdHead == "CMD") {
+    //             let cmdTypeStr: string = str.substr(4, 2);
+    //             let cmdType = strToNumber(cmdTypeStr);
+    //             if (cmdType > startbit_CmdType.GET_HAND_CMD || cmdType < 0) {
+    //                 return startbit_CmdType.NO_COMMAND;
+    //             }
+    //             else {
+    //                 return cmdType;
+    //             }
+    //         }
+    //         else {
+    //             return startbit_CmdType.NO_COMMAND;
+    //         }
+    //     }
+    //     else {
+    //         return startbit_CmdType.NO_COMMAND;
+    //     }
+    // }
+    // /**
+    //  * Resolve the parameters that the phone APP send the command,there are 3 parameters of servo debug command,the other command has just one parameter.
+    //  */
+    // //% weight=58  blockId=startbit_cgetArgs block="Get bluetooth command|%str|argument at %index" group="6. The Mobile App."  
+    // //% index.min=1 index.max=3
+    // export function startbit_getArgs(str: string, index: number): number {
+    //     let cmdType = startbit_analyzeBluetoothCmd(str);
+    //     if (cmdType == startbit_CmdType.NO_COMMAND) {
+    //         return startbit_CarRunCmdType.COMMAND_ERRO;
+    //     }
+    //     else {
+    //         let dataIndex = 7;
+    //         let subLegth = 2;
+    //         if (index == 2) {
+    //             dataIndex = 10;
+    //             subLegth = 2;
+    //         }
+    //         else if (index == 3) {
+    //             dataIndex = 13;
+    //             subLegth = 4;
+    //         }
+    //         if (cmdType == startbit_CmdType.SERVO) {
+    //             if (str.length < 17) {
+    //                 return startbit_CmdType.NO_COMMAND;
+    //             }
+    //         }
+    //         if ((index == 1 && str.length < 10) || (index == 2 && str.length < 13) || (index == 3 && str.length < 17)) {
+    //             return 0;
+    //         }
+    //         let strArgs = str.substr(dataIndex, subLegth);
+    //         let arg = strToNumber(strArgs);
+    //         if (arg == -1)
+    //             return 0;
+    //         return arg;
+    //     }
+    // }
 
-    /**
-     * Returns the enumeration of the command type, which can be compared with this module after obtaining the bluetooth command type sent by the mobile phone APP.
-     */
-    //% weight=57 blockId=startbit_getBluetoothCmdtype block="Bluetooth command type %type" group="6. The Mobile App."  advanced=true
-    export function startbit_getBluetoothCmdtype(type: startbit_CmdType): number {
-        return type;
-    }
+    // /**
+    //  * Returns the enumeration of the command type, which can be compared with this module after obtaining the bluetooth command type sent by the mobile phone APP.
+    //  */
+    // //% weight=57 blockId=startbit_getBluetoothCmdtype block="Bluetooth command type %type" group="6. The Mobile App."  advanced=true
+    // export function startbit_getBluetoothCmdtype(type: startbit_CmdType): number {
+    //     return type;
+    // }
 
-    /**
-     * The command type of the tank is stop, go ahead, back, turn left, turn right, slow down, turn left slowly, turn right slowly.
-     */
-    //% weight=56 blockId=startbit_getRunCarType block="Car run type %type" group="6. The Mobile App."  advanced=true
-    export function startbit_getRunCarType(type: startbit_CarRunCmdType): number {
-        return type;
-    }
+    // /**
+    //  * The command type of the tank is stop, go ahead, back, turn left, turn right, slow down, turn left slowly, turn right slowly.
+    //  */
+    // //% weight=56 blockId=startbit_getRunCarType block="Car run type %type" group="6. The Mobile App."  advanced=true
+    // export function startbit_getRunCarType(type: startbit_CarRunCmdType): number {
+    //     return type;
+    // }
 
-    /**
-     * Connect to the wifi
-     */
-    //% weight=50 blockId=startbit_connectWifi block="Connect to the Wifi,name|%ssid|and password %passwrd"  group="6. The Mobile App."  advanced=true
-    export function startbit_connectWifi(ssid: string, passwrd: string) {
-        let buf = pins.createBuffer(ssid.length + passwrd.length + 10);
-        buf[0] = 0x55;
-        buf[1] = 0x55;
-        buf[2] = (ssid.length + passwrd.length + 8) & 0xff;
-        buf[3] = 0x3E;//cmd type
-        buf[4] = 0x6;
-        buf[5] = 0x22;
-        for (let i = 0; i < ssid.length; i++) {
-            buf[6 + i] = ssid.charCodeAt(i);
-        }
-        buf[ssid.length + 6] = 0x22;
-        buf[ssid.length + 7] = 0x2C;
-        buf[ssid.length + 8] = 0x22;
-        for (let i = 0; i < passwrd.length; i++) {
-            buf[ssid.length + 9 + i] = passwrd.charCodeAt(i);
-        }
-        buf[ssid.length + passwrd.length + 9] = 0x22;
-        serial.writeBuffer(buf);
-    }
+    // /**
+    //  * Connect to the wifi
+    //  */
+    // //% weight=50 blockId=startbit_connectWifi block="Connect to the Wifi,name|%ssid|and password %passwrd"  group="6. The Mobile App."  advanced=true
+    // export function startbit_connectWifi(ssid: string, passwrd: string) {
+    //     let buf = pins.createBuffer(ssid.length + passwrd.length + 10);
+    //     buf[0] = 0x55;
+    //     buf[1] = 0x55;
+    //     buf[2] = (ssid.length + passwrd.length + 8) & 0xff;
+    //     buf[3] = 0x3E;//cmd type
+    //     buf[4] = 0x6;
+    //     buf[5] = 0x22;
+    //     for (let i = 0; i < ssid.length; i++) {
+    //         buf[6 + i] = ssid.charCodeAt(i);
+    //     }
+    //     buf[ssid.length + 6] = 0x22;
+    //     buf[ssid.length + 7] = 0x2C;
+    //     buf[ssid.length + 8] = 0x22;
+    //     for (let i = 0; i < passwrd.length; i++) {
+    //         buf[ssid.length + 9 + i] = passwrd.charCodeAt(i);
+    //     }
+    //     buf[ssid.length + passwrd.length + 9] = 0x22;
+    //     serial.writeBuffer(buf);
+    // }
 
-    /**
-     * Detect the device connect status
-     */
-    //% weight=49 blockId=startbit_isConnectedServer block="Device is connected to server?"  group="6. The Mobile App."  advanced=true
-    export function startbit_isConnectedServer(): boolean {
-        return connectStatus;
-    }
+    // /**
+    //  * Detect the device connect status
+    //  */
+    // //% weight=49 blockId=startbit_isConnectedServer block="Device is connected to server?"  group="6. The Mobile App."  advanced=true
+    // export function startbit_isConnectedServer(): boolean {
+    //     return connectStatus;
+    // }
 
-    /**
-     * Send get mac address command
-     */
-    //% weight=48 blockId=startbit_send_getMac block="Send pair command"  group="6. The Mobile App."  advanced=true
-    export function startbit_send_getMac() {
-        let buf = pins.createBuffer(5);
-        buf[0] = 0x55;
-        buf[1] = 0x55;
-        buf[2] = 0x03;
-        buf[3] = 0x3E;//cmd type
-        buf[4] = 0x08;
-        serial.writeBuffer(buf);
-    }
+    // /**
+    //  * Send get mac address command
+    //  */
+    // //% weight=48 blockId=startbit_send_getMac block="Send pair command"  group="6. The Mobile App."  advanced=true
+    // export function startbit_send_getMac() {
+    //     let buf = pins.createBuffer(5);
+    //     buf[0] = 0x55;
+    //     buf[1] = 0x55;
+    //     buf[2] = 0x03;
+    //     buf[3] = 0x3E;//cmd type
+    //     buf[4] = 0x08;
+    //     serial.writeBuffer(buf);
+    // }
 
-    /**
-     * Do someting when Startbit receive mac adress
-     * @param body code to run when event is raised
-     */
-    //% weight=47 blockId=onStartbit_getMac block="on startbit get device id" group="6. The Mobile App."  advanced=true
-    export function onStartbit_getMac(body: Action) {
-        control.onEvent(MESSAGE_MAC, 1, body);
-    }
+    // /**
+    //  * Do someting when Startbit receive mac adress
+    //  * @param body code to run when event is raised
+    //  */
+    // //% weight=47 blockId=onStartbit_getMac block="on startbit get device id" group="6. The Mobile App."  advanced=true
+    // export function onStartbit_getMac(body: Action) {
+    //     control.onEvent(MESSAGE_MAC, 1, body);
+    // }
 
-    /**
-     * Get device mac address
-     */
-    //% weight=46 blockId=startbit_getMacAddress block="Get device id" group="6. The Mobile App."  advanced=true
-    export function startbit_getMacAddress(): string {
-        return macStr + "$";    }
+    // /**
+    //  * Get device mac address
+    //  */
+    // //% weight=46 blockId=startbit_getMacAddress block="Get device id" group="6. The Mobile App."  advanced=true
+    // export function startbit_getMacAddress(): string {
+    //     return macStr + "$";    }
 
 
 
-    /**
-     *  Get startbit current voltage,the unit is mV
-    */ 
-    //% weight=80 blockGap=50 blockId=startbit_getBatVoltage block="Get startbit current voltage (mV)" group="7. Transformation."
-    export function startbit_getBatVoltage(): number {
-        return currentVoltage;
-    }
-    /**
-     * The distance from the ultrasonic obstacle is the standard command, which is sent to the mobile phone. The APP will indicate the distance of the ultrasonic obstacle.
-     */
-    //% weight=55 blockId=startbit_convertUltrasonic block="Convert ultrasonic distance %data" group="7. Transformation."
-    export function startbit_convertUltrasonic(data: number): string {
-        let cmdStr: string = "CMD|03|";
-        cmdStr += data.toString();
-        cmdStr += "|$";
-        return cmdStr;
-    }
+    // /**
+    //  *  Get startbit current voltage,the unit is mV
+    // */ 
+    // //% weight=80 blockGap=50 blockId=startbit_getBatVoltage block="Get startbit current voltage (mV)" group="7. Transformation."
+    // export function startbit_getBatVoltage(): number {
+    //     return currentVoltage;
+    // }
+    // /**
+    //  * The distance from the ultrasonic obstacle is the standard command, which is sent to the mobile phone. The APP will indicate the distance of the ultrasonic obstacle.
+    //  */
+    // //% weight=55 blockId=startbit_convertUltrasonic block="Convert ultrasonic distance %data" group="7. Transformation."
+    // export function startbit_convertUltrasonic(data: number): string {
+    //     let cmdStr: string = "CMD|03|";
+    //     cmdStr += data.toString();
+    //     cmdStr += "|$";
+    //     return cmdStr;
+    // }
 
-    /**
-     * The conversion temperature value to standard command, sent to the mobile phone, and the APP displays the current temperature.
-     */
-    //% weight=54 blockId=startbit_convertTemperature block="Convert temperature %data" group="7. Transformation."
-    export function startbit_convertTemperature(data: number): string {
-        let cmdStr: string = "CMD|04|";
-        cmdStr += data.toString();
-        cmdStr += "|$";
-        return cmdStr;
-    }
+    // /**
+    //  * The conversion temperature value to standard command, sent to the mobile phone, and the APP displays the current temperature.
+    //  */
+    // //% weight=54 blockId=startbit_convertTemperature block="Convert temperature %data" group="7. Transformation."
+    // export function startbit_convertTemperature(data: number): string {
+    //     let cmdStr: string = "CMD|04|";
+    //     cmdStr += data.toString();
+    //     cmdStr += "|$";
+    //     return cmdStr;
+    // }
 
-    /**
-     * Convert the light value to the standard command and send it to the mobile phone. The APP displays the current light level (0~255).
-     */
-    //% weight=53 blockId=startbit_convertLight block="Convert light %data" group="7. Transformation." advanced=true
-    export function startbit_convertLight(data: number): string {
-        let cmdStr: string = "CMD|06|";
-        cmdStr += data.toString();
-        cmdStr += "|$";
-        return cmdStr;
-    }
+    // /**
+    //  * Convert the light value to the standard command and send it to the mobile phone. The APP displays the current light level (0~255).
+    //  */
+    // //% weight=53 blockId=startbit_convertLight block="Convert light %data" group="7. Transformation." advanced=true
+    // export function startbit_convertLight(data: number): string {
+    //     let cmdStr: string = "CMD|06|";
+    //     cmdStr += data.toString();
+    //     cmdStr += "|$";
+    //     return cmdStr;
+    // }
 
-    /**
-     * Convert the battery value to the standard command and send it to the mobile phone. The APP displays the current voltage.
-     */ 
-    //% weight=52 blockId=startbit_convertBattery blockGap=50 block="Convert battery %data" group="7. Transformation." advanced=true
-    export function startbit_convertBattery(data: number): string {
-        let cmdStr: string = "CMD|07|";
-        cmdStr += data.toString();
-        cmdStr += "|$";
-        return cmdStr;
-    }
+    // /**
+    //  * Convert the battery value to the standard command and send it to the mobile phone. The APP displays the current voltage.
+    //  */ 
+    // //% weight=52 blockId=startbit_convertBattery blockGap=50 block="Convert battery %data" group="7. Transformation." advanced=true
+    // export function startbit_convertBattery(data: number): string {
+    //     let cmdStr: string = "CMD|07|";
+    //     cmdStr += data.toString();
+    //     cmdStr += "|$";
+    //     return cmdStr;
+    // }
 
-    /**
-     * Convert the hand cmd to phone app
-     */
-    //% weight=51 blockId=startbit_convertHandCmd blockGap=50 block="Convert uHand:bit %data"  group="7. Transformation." advanced=true
-    export function startbit_convertHandCmd(data: number): string {
-        let cmdStr: string = "CMD|15|";
-        cmdStr += data.toString();
-        cmdStr += "|$";
-        return cmdStr;
-    }
+    // /**
+    //  * Convert the hand cmd to phone app
+    //  */
+    // //% weight=51 blockId=startbit_convertHandCmd blockGap=50 block="Convert uHand:bit %data"  group="7. Transformation." advanced=true
+    // export function startbit_convertHandCmd(data: number): string {
+    //     let cmdStr: string = "CMD|15|";
+    //     cmdStr += data.toString();
+    //     cmdStr += "|$";
+    //     return cmdStr;
+    // }
 
 
     /**
